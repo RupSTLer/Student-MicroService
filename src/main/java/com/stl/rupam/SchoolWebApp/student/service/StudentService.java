@@ -30,7 +30,9 @@ public class StudentService {
 			studentRepo.findByEmail(student.getEmail()).get();
 		} catch (Exception ex) {
 //			ex.printStackTrace();
-			return studentRepo.save(student);
+			Student s = studentRepo.save(student);
+			studentRepo.setRole(s.getUserName(), "Student");
+			return s;
 		}
 
 		return null;

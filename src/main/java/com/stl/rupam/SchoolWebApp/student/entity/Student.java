@@ -35,8 +35,8 @@ public class Student {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = "student id is mandetory")
-	@Pattern(regexp = "^[SMS]{3}[0-9]{3}$", message = "please add valid ID")
+//	@NotEmpty(message = "student id is mandetory")
+//	@Pattern(regexp = "^[SMS]{3}[0-9]{3}$", message = "please add valid ID")
 	private String studentId;
 	
 	@NotEmpty(message = "username is mandetory")
@@ -52,7 +52,7 @@ public class Student {
 	private String name;
 	
 	@Email(message = "email not valid")
-	@Pattern(regexp = "^([a-zA-Z0-9_\\\\-\\\\.]+)@([a-zA-Z0-9_\\\\-\\\\.]+)\\\\.([a-zA-Z]{2,5})$")
+//	@Pattern(regexp = "^([a-zA-Z0-9_\\\\-\\\\.]+)@([a-zA-Z0-9_\\\\-\\\\.]+)\\\\.([a-zA-Z]{2,5})$")
 	private String email;
 	
 	
