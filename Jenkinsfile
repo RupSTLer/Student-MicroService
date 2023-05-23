@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the application..."
-                    bat 'java -jar target/Student_Microservices-0.0.1-SNAPSHOT.jar'
+                    bat 'java -jar target/student-0.0.1-SNAPSHOT.jar'
 
                 }
             }
