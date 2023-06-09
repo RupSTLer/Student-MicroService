@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import org.springframework.test.annotation.Rollback;
 import org.junit.jupiter.api.MethodOrderer;
 
 import com.stl.rupam.SchoolWebApp.student.entity.Student;
+import com.stl.rupam.SchoolWebApp.student.entity.User;
 import com.stl.rupam.SchoolWebApp.student.repo.StudentRepo;
 import com.stl.rupam.SchoolWebApp.student.repo.UserRepo;
 import com.stl.rupam.SchoolWebApp.student.service.StudentService;
@@ -41,10 +43,10 @@ public class StudentServiceTest {
 	@Order(1)
 	@Rollback(value = false)
 	public void saveStudentTest() {
-		Student mockStudent = new Student("SMS001", "ram123", "Ram@pass", "Ramesh", "rami@gmail.com");
+		Student mockStudent = new Student("SMS001", "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "rami@gmail.com");
 
 		when(studentRepo.save(mockStudent)).thenReturn(mockStudent);    //mocking
-		assertEquals(mockStudent, studentService.saveStudent(mockStudent));
+		assertEquals("Student added successfully", studentService.saveStudent(mockStudent));
 		verify(studentRepo, times(1)).save(mockStudent);
 	}
 
@@ -91,17 +93,17 @@ public class StudentServiceTest {
 	public void updateStudentTest() {
 
 		String studentId = "SMS001";
-		Student existingStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", "ram@gmail.com");
-		Student updatedStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", "ramesh@gmail.com");
+		Student existingStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ram@gmail.com");
+		Student updatedStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ramesh@gmail.com");
 
 		when(studentRepo.getStudentByStudentId(studentId)).thenReturn(Optional.of(existingStudent));
-		when(studentRepo.saveAndFlush(existingStudent)).thenReturn(updatedStudent);
+		when(studentRepo.save(existingStudent)).thenReturn(updatedStudent);
 
-		Student mockService = studentService.updateStudent(studentId, existingStudent);
+		String mockService = studentService.updateStudent(studentId, existingStudent);
 
-		assertEquals(updatedStudent, mockService);
+		assertEquals("Student details updated successfully", mockService);
 		verify(studentRepo, times(1)).getStudentByStudentId(studentId);
-		verify(studentRepo, times(1)).saveAndFlush(existingStudent);
+		verify(studentRepo, times(1)).save(existingStudent);
 
 	}
 
@@ -127,16 +129,22 @@ public class StudentServiceTest {
 	@Order(6)
 	@Rollback(value = false)
 	public void deleteStudentTest() {
-		String studentId = "SMS001";
+		String studentId = "SMS002";
 
-		Student student = new Student(studentId, "ram123", "Ram@pass", "Ramesh", "ram@gmail.com");
+		Student student = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ram@gmail.com");
+		User user = new User("ram123", "Ram@pass", studentId,  "Ramesh", LocalDate.of(2010, 3, 24), "ram@gmail.com");
 
 		when(studentRepo.getStudentByStudentId(studentId)).thenReturn(Optional.of(student)); // mocking
+		when(userRepo.getStudentByUserID(studentId)).thenReturn(Optional.of(user)); // mocking
 
 		studentService.deleteStudent(studentId);
 
 		verify(studentRepo, times(1)).getStudentByStudentId(studentId);
 		verify(studentRepo, times(1)).deleteById(studentId);
+		verify(userRepo, times(1)).getStudentByUserID(studentId);		
+		verify(studentRepo, times(1)).deleteRole(student.getUserName());
+		verify(userRepo, times(1)).deleteUser(studentId);
+
 
 	}
 

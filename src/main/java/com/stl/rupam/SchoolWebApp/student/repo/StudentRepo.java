@@ -1,7 +1,7 @@
 package com.stl.rupam.SchoolWebApp.student.repo;
 
+import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,9 +12,11 @@ import com.stl.rupam.SchoolWebApp.student.entity.Student;
 
 public interface StudentRepo extends JpaRepository<Student, String> {
 	
-	Optional<Student> findByEmail(String email);
+	List<Student> findByEmail(String email);
 	
-	Optional<Student> findByPhoneNo(String phoneNo);
+	List<Student> findByUserName(String userName);
+	
+	List<Student> findByPhoneNo(String phoneNo);
 	
 	Optional<Student> getStudentByStudentId(String studentId);
 	
@@ -27,4 +29,5 @@ public interface StudentRepo extends JpaRepository<Student, String> {
 	@Modifying
 	@Query(value = "delete from user_role where user_id = ?", nativeQuery = true)
 	void deleteRole(String userName);
+	
 }

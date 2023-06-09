@@ -36,13 +36,15 @@ public class StudentController {
 	}
 	
 	@PostMapping("/addStudent")
-	public ResponseEntity<Student> saveStudent(@Valid @RequestBody Student student) {
-		return new ResponseEntity<Student>(studentService.saveStudent(student), HttpStatus.CREATED);
+	public ResponseEntity<String> saveStudent(@Valid @RequestBody Student student) {
+		studentService.saveStudent(student);
+		return new ResponseEntity<String>("Student added successfully", HttpStatus.CREATED);
 	}
 	
 	@PutMapping("{studentId}")
-	public ResponseEntity<Student> updateStudent(@Valid @PathVariable String studentId, @RequestBody Student student) {
-		return new ResponseEntity<Student>(studentService.updateStudent(studentId, student), HttpStatus.OK);
+	public ResponseEntity<String> updateStudent(@Valid @PathVariable String studentId, @RequestBody Student student) {
+		studentService.updateStudent(studentId, student);
+		return new ResponseEntity<String>("Student updated successfully", HttpStatus.OK);
 	}
 	
 	@GetMapping("/{studentId}")

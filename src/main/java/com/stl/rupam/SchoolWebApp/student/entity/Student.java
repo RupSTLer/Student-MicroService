@@ -1,7 +1,6 @@
 package com.stl.rupam.SchoolWebApp.student.entity;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,10 +27,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "students")
 public class Student {
 
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Long id;
-
 	@Id
 	private String studentId;
 
@@ -53,7 +48,8 @@ public class Student {
 	@Max(value = 18, message = "age must be less than 18")
 	private int age;
 
-//	@NotNull(message = "DOB is mandetory")
+//	@Past
+	@NotNull(message = "DOB is mandetory")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 
@@ -86,18 +82,35 @@ public class Student {
 	
 
 	public Student(
-//			Long id, 
 			String studentId,
 			String userName,
 			@NotEmpty(message = "password is mandetory") @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z]).{5,}") String password,
 			@NotEmpty(message = "student name is mandetory") @Pattern(regexp = "[a-zA-Z]{2}[a-zA-Z ]+", message = "please add valid name") String name,
 			@NotEmpty(message = "email is mandetory") @Email(message = "please give valid email") String email) {
 		super();
-//		this.id = id;
 		this.studentId = studentId;
 		this.userName = userName;
 		this.password = password;
 		this.name = name;
+		this.email = email;
+	}
+
+
+
+
+
+	public Student(String studentId,
+			@NotEmpty(message = "username is mandetory") @Pattern(regexp = "[a-zA-Z0-9]{4,}") String userName,
+			@NotEmpty(message = "password is mandetory") @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z]).{5,}") String password,
+			@NotEmpty(message = "student name is mandetory") @Pattern(regexp = "[a-zA-Z]{2}[a-zA-Z ]+", message = "please add valid name") String name,
+			LocalDate birthDate,
+			@NotEmpty(message = "email is mandetory") @Email(message = "please give valid email") String email) {
+		super();
+		this.studentId = studentId;
+		this.userName = userName;
+		this.password = password;
+		this.name = name;
+		this.birthDate = birthDate;
 		this.email = email;
 	}
 
