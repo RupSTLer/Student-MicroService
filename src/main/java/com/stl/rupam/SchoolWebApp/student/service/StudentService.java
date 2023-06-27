@@ -22,30 +22,6 @@ public class StudentService {
 	@Autowired
 	private UserRepo userRepo;
 
-//	public Student saveStudent(Student student) {
-//		Long c = studentRepo.count();
-//		String u = "SMS00" + (c + 1);
-//		student.setStudentId(u);
-//
-//		// checking duplicate entries via email
-//		try {
-//			studentRepo.findByEmail(student.getEmail());
-//			studentRepo.findByPhoneNo(student.getPhoneNo());
-//		} catch (Exception ex) {
-////			ex.printStackTrace();
-//
-//			validateStudent(student);
-//			Student s = studentRepo.save(student);
-//			userRepo.save(new User(s.getUserName(), s.getPassword(), s.getStudentId(), s.getName(), s.getAge(),
-//					s.getBirthDate(), s.getGender(), s.getAddress(), s.getPhoneNo(), s.getEmail(), s.getClasse(),
-//					s.getSection()));
-//			studentRepo.setRole(s.getUserName(), "Student");
-//
-//			return s;
-//		}
-//		return null;
-//	}
-
 	public String saveStudent(Student student) {
 		Long c = studentRepo.count();
 		String u = "SMS00" + (c + 1);
@@ -72,7 +48,7 @@ public class StudentService {
 		Student existingStudent = studentRepo.getStudentByStudentId(studentId)
 				.orElseThrow(() -> new ResourceNotFoundException("Student not exist with studentId: " + studentId));
 
-		String stu = validateStudent(student);
+		String stu = validateUpdateStudent(student);
 
 		if (stu == null) {
 			Student s = studentRepo.save(student);
@@ -124,6 +100,45 @@ public class StudentService {
 
 		return null;
 	}
+	
+	public String validateUpdateStudent(Student student) {
+
+		LocalDate minDate = LocalDate.of(2010, 1, 1);
+		LocalDate maxDate = LocalDate.of(2020, 12, 31);
+		LocalDate birthDate = student.getBirthDate();
+
+		try {
+
+			if (birthDate.isBefore(minDate) || birthDate.isAfter(maxDate)) {
+				throw new IllegalArgumentException("Invalid date. Date must be in between 2010 to 2020");
+			}
+
+//			List<Student> existingEmail = studentRepo.findByEmail(student.getEmail());
+//
+//			if (!existingEmail.isEmpty()) {
+//				throw new IllegalArgumentException("Email already exists");
+//			}
+//
+//			List<Student> existingUserName = studentRepo.findByUserName(student.getUserName());
+//
+//			if (!existingUserName.isEmpty()) {
+//				throw new IllegalArgumentException("Username already exists");
+//			}
+//
+//			List<Student> existingPhoneNo = studentRepo.findByPhoneNo(student.getPhoneNo());
+//
+//			if (!existingPhoneNo.isEmpty()) {
+//				throw new IllegalArgumentException("PhoneNo already exists");
+//			}
+
+		} catch (Exception ex) {
+			return ex.getMessage();
+		}
+
+		return null;
+	}
+	
+	
 
 	public Student getStudentByStudentId(String studentId) {
 		return studentRepo.getStudentByStudentId(studentId)
@@ -153,3 +168,28 @@ public class StudentService {
 	}
 
 }
+
+
+//public Student saveStudent(Student student) {
+//Long c = studentRepo.count();
+//String u = "SMS00" + (c + 1);
+//student.setStudentId(u);
+//
+//// checking duplicate entries via email
+//try {
+//	studentRepo.findByEmail(student.getEmail());
+//	studentRepo.findByPhoneNo(student.getPhoneNo());
+//} catch (Exception ex) {
+////	ex.printStackTrace();
+//
+////	validateStudent(student);
+//	Student s = studentRepo.save(student);
+//	userRepo.save(new User(s.getUserName(), s.getPassword(), s.getStudentId(), s.getName(), s.getAge(),
+//			s.getBirthDate(), s.getGender(), s.getAddress(), s.getPhoneNo(), s.getEmail(), s.getClasse(),
+//			s.getSection()));
+//	studentRepo.setRole(s.getUserName(), "Student");
+//
+//	return s;
+//}
+//return null;
+//}

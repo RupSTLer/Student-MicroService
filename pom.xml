@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>student-microservice</finalName>
 	</build>
 
 </project>

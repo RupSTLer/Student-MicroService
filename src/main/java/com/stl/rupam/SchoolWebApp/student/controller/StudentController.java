@@ -30,21 +30,21 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 
-	@GetMapping("/app")
+	@GetMapping("/studentApp")
 	public String student_controller() {
-		return "This is student controller";
+		return "This is student service application";
 	}
 	
 	@PostMapping("/addStudent")
 	public ResponseEntity<String> saveStudent(@Valid @RequestBody Student student) {
-		studentService.saveStudent(student);
-		return new ResponseEntity<String>("Student added successfully", HttpStatus.CREATED);
+		
+		return new ResponseEntity<String>(studentService.saveStudent(student), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("{studentId}")
 	public ResponseEntity<String> updateStudent(@Valid @PathVariable String studentId, @RequestBody Student student) {
-		studentService.updateStudent(studentId, student);
-		return new ResponseEntity<String>("Student updated successfully", HttpStatus.OK);
+		
+		return new ResponseEntity<String>(studentService.updateStudent(studentId, student), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{studentId}")
@@ -71,3 +71,5 @@ public class StudentController {
 
 
 }
+
+
