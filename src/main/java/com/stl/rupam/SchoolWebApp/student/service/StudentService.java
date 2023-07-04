@@ -31,9 +31,11 @@ public class StudentService {
 
 		if (stu == null) {
 			Student s = studentRepo.save(student);
+			
 			userRepo.save(new User(s.getUserName(), s.getPassword(), s.getStudentId(), s.getName(), s.getAge(),
 					s.getBirthDate(), s.getGender(), s.getAddress(), s.getPhoneNo(), s.getEmail(), s.getClasse(),
 					s.getSection()));
+			
 			studentRepo.setRole(s.getUserName(), "Student");
 
 			return "Student added successfully";
@@ -73,25 +75,29 @@ public class StudentService {
 		try {
 
 			if (birthDate.isBefore(minDate) || birthDate.isAfter(maxDate)) {
-				throw new IllegalArgumentException("Invalid date. Date must be in between 2010 to 2020");
+				throw new IllegalArgumentException("Invalid Bithdate. Birthdate must be in between 2010 to 2020");
+			}
+			if(student.getAge() < 5 && student.getAge() > 15)
+			{
+				throw new IllegalArgumentException("Age must be in between 5 to 15");
 			}
 
 			List<Student> existingEmail = studentRepo.findByEmail(student.getEmail());
 
 			if (!existingEmail.isEmpty()) {
-				throw new IllegalArgumentException("Email already exists");
+				throw new IllegalArgumentException(student.getEmail()+ " :Email already exists");
 			}
 
 			List<Student> existingUserName = studentRepo.findByUserName(student.getUserName());
 
 			if (!existingUserName.isEmpty()) {
-				throw new IllegalArgumentException("Username already exists");
+				throw new IllegalArgumentException(student.getUserName()+ " :Username already exists");
 			}
 
 			List<Student> existingPhoneNo = studentRepo.findByPhoneNo(student.getPhoneNo());
 
 			if (!existingPhoneNo.isEmpty()) {
-				throw new IllegalArgumentException("PhoneNo already exists");
+				throw new IllegalArgumentException(student.getPhoneNo()+ " :PhoneNo already exists");
 			}
 
 		} catch (Exception ex) {
@@ -110,26 +116,8 @@ public class StudentService {
 		try {
 
 			if (birthDate.isBefore(minDate) || birthDate.isAfter(maxDate)) {
-				throw new IllegalArgumentException("Invalid date. Date must be in between 2010 to 2020");
+				throw new IllegalArgumentException("Invalid Bithdate. Bithdate must be in between 2010 to 2020");
 			}
-
-//			List<Student> existingEmail = studentRepo.findByEmail(student.getEmail());
-//
-//			if (!existingEmail.isEmpty()) {
-//				throw new IllegalArgumentException("Email already exists");
-//			}
-//
-//			List<Student> existingUserName = studentRepo.findByUserName(student.getUserName());
-//
-//			if (!existingUserName.isEmpty()) {
-//				throw new IllegalArgumentException("Username already exists");
-//			}
-//
-//			List<Student> existingPhoneNo = studentRepo.findByPhoneNo(student.getPhoneNo());
-//
-//			if (!existingPhoneNo.isEmpty()) {
-//				throw new IllegalArgumentException("PhoneNo already exists");
-//			}
 
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -168,28 +156,3 @@ public class StudentService {
 	}
 
 }
-
-
-//public Student saveStudent(Student student) {
-//Long c = studentRepo.count();
-//String u = "SMS00" + (c + 1);
-//student.setStudentId(u);
-//
-//// checking duplicate entries via email
-//try {
-//	studentRepo.findByEmail(student.getEmail());
-//	studentRepo.findByPhoneNo(student.getPhoneNo());
-//} catch (Exception ex) {
-////	ex.printStackTrace();
-//
-////	validateStudent(student);
-//	Student s = studentRepo.save(student);
-//	userRepo.save(new User(s.getUserName(), s.getPassword(), s.getStudentId(), s.getName(), s.getAge(),
-//			s.getBirthDate(), s.getGender(), s.getAddress(), s.getPhoneNo(), s.getEmail(), s.getClasse(),
-//			s.getSection()));
-//	studentRepo.setRole(s.getUserName(), "Student");
-//
-//	return s;
-//}
-//return null;
-//}

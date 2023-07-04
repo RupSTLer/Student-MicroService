@@ -87,25 +87,25 @@ public class StudentServiceTest {
 	}
 
 	// JUnit test for update student details
-//	@Test
-//	@Order(4)
-//	@Rollback(value = false)
-//	public void updateStudentTest() {
-//
-//		String studentId = "SMS001";
-//		Student existingStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ram@gmail.com");
-//		Student updatedStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ramesh@gmail.com");
-//
-//		when(studentRepo.getStudentByStudentId(studentId)).thenReturn(Optional.of(existingStudent));
-//		when(studentRepo.save(existingStudent)).thenReturn(updatedStudent);
-//
-//		String mockService = studentService.updateStudent(studentId, existingStudent);
-//
-//		assertEquals("Student details updated successfully", mockService);
-//		verify(studentRepo, times(1)).getStudentByStudentId(studentId);
-//		verify(studentRepo, times(1)).save(existingStudent);
-//
-//	}
+	@Test
+	@Order(4)
+	@Rollback(value = false)
+	public void updateStudentTest() {
+
+		String studentId = "SMS001";
+		Student existingStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ram@gmail.com");
+		Student updatedStudent = new Student(studentId, "ram123", "Ram@pass", "Ramesh", LocalDate.of(2010, 3, 24), "ramesh@gmail.com");
+
+		when(studentRepo.getStudentByStudentId(studentId)).thenReturn(Optional.of(existingStudent));
+		when(studentRepo.save(existingStudent)).thenReturn(updatedStudent);
+
+		String mockService = studentService.updateStudent(studentId, existingStudent);
+
+		assertEquals("Student details updated successfully", mockService);
+		verify(studentRepo, times(1)).getStudentByStudentId(studentId);
+		verify(studentRepo, times(1)).save(existingStudent);
+
+	}
 
 	// JUnit test for count student
 	@Test

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 //@EnableEurekaClient
 //@EnableFeignClients
+
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class StudentApplication {
 

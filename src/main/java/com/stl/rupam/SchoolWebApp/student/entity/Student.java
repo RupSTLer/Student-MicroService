@@ -44,8 +44,8 @@ public class Student {
 
 	@NotNull(message = "please add valid age")
 	@Positive(message = "age should be positive")
-	@Min(value = 6, message = "age must be atleast 6")
-	@Max(value = 18, message = "age must be less than 18")
+	@Min(value = 5, message = "age must be atleast 5")
+	@Max(value = 15, message = "age must be less than 15")
 	private int age;
 
 //	@Past
